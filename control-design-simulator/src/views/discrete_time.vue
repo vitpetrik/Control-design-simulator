@@ -21,7 +21,7 @@
             <v-card-title primary-title>Grafík ❤❤</v-card-title>
             <v-divider></v-divider>
             <v-card-text>
-              <vue-plotly :data="positions" autoResize></vue-plotly>
+              <vue-plotly :data="positions" :layout="layout" :options="options" :auto-resize="true" ></vue-plotly>
             </v-card-text>
           </v-card>
         </v-col>
@@ -40,7 +40,9 @@ export default {
   data: function() {
     return {
       data: [{ x: [1, 3], y: [2, 4] }],
-      layout: {},
+      layout: {
+          title: "graf"
+      },
       options: {},
       K: 5,
       Tvz: 5,
@@ -58,22 +60,22 @@ export default {
       return this.K * (1 - Math.exp(-this.Tvz / this.Ts));
     },
     positions() {
-      let array = [{ x: [], y: [] }];
-      console.log(array[0])
+      let array = [{ x: [], y: [], type: 'scatter' }];
+      console.log(array[0]);
       for (let i = 0; i < this.n; i++) {
         if (i == 0) {
           array[0].y.push(0);
         } else if (i == 1) {
           array[0].y.push(
             this.b * this.r1 * this.Tvz * this.wk1 -
-              (this.a + this.b * this.r1 * this.Tvz - 1) * array[0].y[i-1] +
+              (this.a + this.b * this.r1 * this.Tvz - 1) * array[0].y[i - 1] +
               0
           );
         } else {
           array[0].y.push(
             this.b * this.r1 * this.Tvz * this.wk1 -
-              (this.a + this.b * this.r1 * this.Tvz - 1) * array[0].y[i-1] +
-              this.a * array[0].y[i-2]
+              (this.a + this.b * this.r1 * this.Tvz - 1) * array[0].y[i - 1] +
+              this.a * array[0].y[i - 2]
           );
         }
         array[0].x.push(i);
